@@ -1,0 +1,10 @@
+[target]
+path=github.com/jijeshmohan/mtgrid
+
+[deps]
+github.com/go-martini/martini = 
+github.com/martini-contrib/render = 
+
+[res]
+include = 
+
