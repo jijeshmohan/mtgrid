@@ -3,8 +3,17 @@
 	"GoVersion": "go1.2",
 	"Deps": [
 		{
+			"ImportPath": "github.com/BurntSushi/toml",
+			"Rev": "f87ce853111478914f0bcffa34d43a93643e6eda"
+		},
+		{
 			"ImportPath": "github.com/codegangsta/inject",
 			"Rev": "8822b072a3636c1a365c68e1004efd5bf8ab500f"
+		},
+		{
+			"ImportPath": "github.com/coopernurse/gorp",
+			"Comment": "v1.5",
+			"Rev": "242be3eec6e4d545d0eca24b5dc71236b71ac656"
 		},
 		{
 			"ImportPath": "github.com/go-martini/martini",
@@ -14,6 +23,10 @@
 		{
 			"ImportPath": "github.com/martini-contrib/render",
 			"Rev": "8bfb8082dc408e84e96bb4b57ed36a7800e0e807"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Rev": "58c62dc30cda06e4a74e18f6489bb6c112fc6e5d"
 		}
 	]
 }

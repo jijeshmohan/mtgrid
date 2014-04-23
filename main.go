@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/go-martini/martini"
+	_ "github.com/jijeshmohan/mtgrid/config"
+	_ "github.com/jijeshmohan/mtgrid/models"
 	"github.com/martini-contrib/render"
 )
 
