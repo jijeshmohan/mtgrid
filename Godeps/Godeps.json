@@ -1,0 +1,19 @@
+{
+	"ImportPath": "github.com/jijeshmohan/mtgrid",
+	"GoVersion": "go1.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Rev": "8822b072a3636c1a365c68e1004efd5bf8ab500f"
+		},
+		{
+			"ImportPath": "github.com/go-martini/martini",
+			"Comment": "v0.1-153-gbaa4221",
+			"Rev": "baa42219288cdd775874794381aa987144012263"
+		},
+		{
+			"ImportPath": "github.com/martini-contrib/render",
+			"Rev": "8bfb8082dc408e84e96bb4b57ed36a7800e0e807"
+		}
+	]
+}
