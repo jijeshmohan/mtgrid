@@ -1,25 +1,19 @@
 package config
 
-import (
-	"fmt"
-
-	"github.com/BurntSushi/toml"
-)
+import "github.com/BurntSushi/toml"
 
 type Config struct {
-	Server   string
-	Database string
-	Dbpath   string
+	Addr   string `toml:"bind_addr"`
+	DbType string `toml:"db_type"`
+	DbPath string `toml:"db_path"`
 }
 
-func NewConfig(env string) (*Config, error) {
-	var config Config
-	if env == "" {
-		env = "development"
-	}
-	filename := fmt.Sprintf("./%s.conf", env)
-	if _, err := toml.DecodeFile(filename, &config); err != nil {
-		return nil, err
-	}
-	return &config, nil
+func New() *Config {
+	c := Config{Addr: ":3000", DbType: "sqlite3", DbPath: "db/development.db"}
+	return &c
+}
+
+func (c *Config) LoadFile(path string) error {
+	_, err := toml.DecodeFile(path, c)
+	return err
 }
