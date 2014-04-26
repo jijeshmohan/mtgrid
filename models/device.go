@@ -13,14 +13,16 @@ type Device struct {
 
 func addDeviceTable() {
 	tbl := orp.AddTableWithName(Device{}, "devices").SetKeys(true, "Id")
-	tbl.ColMap("Name").SetUnique(true)
-	tbl.ColMap("Name").SetMaxSize(255)
+	tbl.ColMap("Name").SetUnique(true).SetMaxSize(25)
 
 	tbl.ColMap("Type").SetMaxSize(20)
 	tbl.ColMap("OS").SetMaxSize(20)
 	tbl.ColMap("OsVersion").SetMaxSize(20)
-	tbl.ColMap("Key").SetMaxSize(255)
 	tbl.ColMap("Status").SetMaxSize(20)
+}
+
+func AddDevice(device *Device) error {
+	return orp.Insert(device)
 }
 
 func GetAllDevices() (devices *[]Device, err error) {
