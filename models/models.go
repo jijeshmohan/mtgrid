@@ -27,8 +27,10 @@ func InitDb(c *config.Config) (dbmap *gorp.DbMap, err error) {
 
 	orp = &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
 
+	addDeviceTable()
+
 	if err = orp.CreateTablesIfNotExists(); err != nil {
-		return
+		return nil, err
 	}
 
 	dbmap = orp
