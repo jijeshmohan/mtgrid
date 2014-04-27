@@ -25,8 +25,8 @@ func AddDevice(device *Device) error {
 	return orp.Insert(device)
 }
 
-func GetAllDevices() (devices *[]Device, err error) {
-	_, err = orp.Select(devices, "select * from devices order by id")
+func GetAllDevices() (devices []Device, err error) {
+	_, err = orp.Select(&devices, "select * from devices order by id")
 	return
 }
 
