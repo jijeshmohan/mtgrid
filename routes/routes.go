@@ -10,9 +10,9 @@ import (
 func InitRoutes(m *martini.ClassicMartini) {
 
 	m.Group("/devices", func(r martini.Router) {
-		r.Get("/", ListDevices)
+		r.Get("", ListDevices)
 		// r.Post("/", binding.Form(models.Device{}), CreateDevice)
-		// r.Get("/new", NewDevice)
+		r.Get("/new", NewDevice)
 		// r.Get("/:id", ShowDevice)
 	})
 

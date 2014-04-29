@@ -7,7 +7,7 @@ type Device struct {
 	Name      string `binding:"required"`
 	Type      string ``
 	OS        string
-	OsVersion string
+	OsVersion string `json:"os_version"`
 	Status    string
 }
 

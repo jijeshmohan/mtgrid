@@ -18,3 +18,7 @@ func ListDevices(r render.Render, data middleware.Data) {
 	data["devices"] = devices
 	r.HTML(200, "devices/index", data)
 }
+
+func NewDevice(r render.Render) {
+	r.HTML(200, "devices/new", " ")
+}
