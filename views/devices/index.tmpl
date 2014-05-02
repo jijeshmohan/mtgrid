@@ -9,11 +9,18 @@
 			<th>Device</th>
 			<th>Type</th>
 			<th>Platform</th>
-			<th>OS</th>
 			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
+	{{range .devices}}
+	<tr>
+		<td>{{.Name}}</td>
+		<td>{{.Type}}</td>
+		<td>{{.OS}}</td>
+		<td>{{.Status}}</td>
+	</tr>
+	{{end}}
 	</tbody>
 	</table>
 </div>

@@ -1,14 +1,23 @@
 package models
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/coopernurse/gorp"
+)
 
 type Device struct {
 	Id        int64
-	Name      string `binding:"required"`
-	Type      string ``
-	OS        string
-	OsVersion string `json:"os_version"`
+	Name      string `form:"name" binding:"required"`
+	Type      string `form:"type"`
+	OS        string `form:"os"`
+	OsVersion string `form:"os_version" json:"os_version"`
 	Status    string
+}
+
+func (d *Device) PreInsert(s gorp.SqlExecutor) error {
+	d.Status = "Disconnected"
+	return nil
 }
 
 func addDeviceTable() {
