@@ -1,3 +1,13 @@
+{{if .errors}}
+  <div class="alert alert-danger">
+    Error while creating post
+    <ul>
+      {{range $key, $value := .errors.Fields}}
+        <li>{{$key}} {{$value}}</li>
+      {{end}}
+    </ul>
+  </div>
+{{end}}
 <h3>Register Device</h3>
 <hr/>
 <div class="col-md-6 col-md-offset-2">

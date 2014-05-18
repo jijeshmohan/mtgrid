@@ -21,19 +21,17 @@ func ListDevices(r render.Render, data middleware.Data) {
 	r.HTML(200, "devices/index", data)
 }
 
-func NewDevice(r render.Render) {
-	r.HTML(200, "devices/new", " ")
+func NewDevice(r render.Render, data middleware.Data) {
+	r.HTML(200, "devices/new", data)
 }
 
 func CreateDevice(r render.Render, err binding.Errors, device models.Device, data middleware.Data) {
 	if err.Count() > 0 {
-
 		data["errors"] = err
 		log.Println(err)
 		r.HTML(http.StatusBadRequest, "devices/new", data)
 		return
 	}
-	log.Println(device)
 	if e := models.AddDevice(&device); e != nil {
 		log.Println(err)
 		data["errors"] = err
