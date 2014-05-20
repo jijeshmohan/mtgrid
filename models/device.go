@@ -2,8 +2,11 @@ package models
 
 import (
 	"errors"
+	"net/http"
+	"strings"
 
 	"github.com/coopernurse/gorp"
+	"github.com/martini-contrib/binding"
 )
 
 type Device struct {
@@ -15,8 +18,21 @@ type Device struct {
 	Status    string
 }
 
+func (d Device) Validate(errs binding.Errors, req *http.Request) binding.Errors {
+	if len(strings.Trim(d.Name, " ")) < 5 {
+		errs = append(errs, binding.Error{
+			FieldNames:     []string{"Name"},
+			Classification: "LengthError",
+			Message:        "Name is too short. Minimum 5 characters",
+		})
+	}
+
+	return errs
+}
+
 func (d *Device) PreInsert(s gorp.SqlExecutor) error {
 	d.Status = "Disconnected"
+	d.Name = strings.Trim(d.Name, " ")
 	return nil
 }
 
