@@ -26,18 +26,29 @@ func NewDevice(r render.Render, data middleware.Data) {
 }
 
 func CreateDevice(r render.Render, err binding.Errors, device models.Device, data middleware.Data) {
-	if err.Count() > 0 {
+	if err.Len() > 0 {
 		data["errors"] = err
 		log.Println(err)
 		r.HTML(http.StatusBadRequest, "devices/new", data)
 		return
 	}
 	if e := models.AddDevice(&device); e != nil {
-		log.Println(err)
-		data["errors"] = err
-		log.Println(err)
+		data["errors"] = updateError(err, e)
 		r.HTML(http.StatusBadRequest, "devices/new", data)
 		return
 	}
 	r.Redirect("/devices")
+}
+
+func updateError(err binding.Errors, e error) binding.Errors {
+	newError := binding.Error{
+		FieldNames:     []string{"message"},
+		Classification: "Database",
+		Message:        e.Error(),
+	}
+	if err != nil {
+		return binding.Errors{newError}
+	} else {
+		return append(err, newError)
+	}
 }

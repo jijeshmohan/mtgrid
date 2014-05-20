@@ -2,8 +2,8 @@
   <div class="alert alert-danger">
     Error while creating post
     <ul>
-      {{range $key, $value := .errors.Fields}}
-        <li>{{$key}} {{$value}}</li>
+      {{range .errors}}
+        <li>{{.FieldNames}} {{.Message}}</li>
       {{end}}
     </ul>
   </div>
