@@ -32,7 +32,7 @@ func (d Device) Validate(errs binding.Errors, req *http.Request) binding.Errors 
 
 func (d *Device) PreInsert(s gorp.SqlExecutor) error {
 	d.Status = "Disconnected"
-	d.Name = strings.Trim(d.Name, " ")
+	d.Name = strings.ToLower(strings.Trim(d.Name, " "))
 	return nil
 }
 

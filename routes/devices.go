@@ -28,7 +28,6 @@ func NewDevice(r render.Render, data middleware.Data) {
 func CreateDevice(r render.Render, err binding.Errors, device models.Device, data middleware.Data) {
 	if err.Len() > 0 {
 		data["errors"] = err
-		log.Println(err)
 		r.HTML(http.StatusBadRequest, "devices/new", data)
 		return
 	}
