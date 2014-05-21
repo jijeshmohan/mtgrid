@@ -12,16 +12,16 @@ import (
 type Device struct {
 	Id        int64
 	Name      string `form:"name" binding:"required"`
-	Type      string `form:"type"`
-	OS        string `form:"os"`
-	OsVersion string `form:"os_version" json:"os_version"`
+	Type      string `form:"type" binding:"required"`
+	OS        string `form:"os" binding:"required"`
+	OsVersion string `form:"os_version" json:"os_version" binding:"required"`
 	Status    string
 }
 
 func (d Device) Validate(errs binding.Errors, req *http.Request) binding.Errors {
 	if len(strings.Trim(d.Name, " ")) < 5 {
 		errs = append(errs, binding.Error{
-			FieldNames:     []string{"Name"},
+			FieldNames:     []string{"name"},
 			Classification: "LengthError",
 			Message:        "Name is too short. Minimum 5 characters",
 		})
