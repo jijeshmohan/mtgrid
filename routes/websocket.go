@@ -40,7 +40,7 @@ func broadcastMessage(messageType int, message []byte) {
 	}
 }
 
-func socket(w http.ResponseWriter, r *http.Request) {
+func Socket(w http.ResponseWriter, r *http.Request) {
 	ws, err := websocket.Upgrade(w, r, nil, 1024, 1024)
 	if _, ok := err.(websocket.HandshakeError); ok {
 		http.Error(w, "Not a websocket handshake", 400)

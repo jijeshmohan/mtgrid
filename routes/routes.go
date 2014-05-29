@@ -18,6 +18,7 @@ func InitRoutes(m *martini.ClassicMartini) {
 		// r.Get("/:id", ShowDevice)
 	})
 
+	m.Get("/sock", Socket)
 	m.NotFound(func(r render.Render) {
 		r.HTML(404, "status/404", "")
 	})
