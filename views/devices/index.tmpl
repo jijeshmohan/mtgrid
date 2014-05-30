@@ -4,23 +4,34 @@
 </div>
 <div class="table-responsive">
 	<table class="table table-condensed">
-	<thead>
-		<tr>
-			<th>Device</th>
-			<th>Type</th>
-			<th>Platform</th>
-			<th>Status</th>
-		</tr>
-	</thead>
-	<tbody>
-	{{range .devices}}
-	<tr>
-		<td>{{.Name}}</td>
-		<td>{{.Type}}</td>
-		<td>{{.OS}}</td>
-		<td>{{.Status}}</td>
-	</tr>
-	{{end}}
-	</tbody>
-	</table>
+   <thead>
+    <tr>
+     <th>Device</th>
+     <th>Type</th>
+     <th>Platform</th>
+     <th>Status</th>
+   </tr>
+ </thead>
+ <tbody id="data">
+   {{range .devices}}
+   <tr>
+    <td>{{.Name}}</td>
+    <td>{{.Type}}</td>
+    <td>{{.OS}}</td>
+    <td>{{.Status}}</td>
+  </tr>
+  {{end}}
+</tbody>
+</table>
 </div>
+
+<script>
+  var c=new WebSocket('ws://localhost:3000/sock');
+  c.onopen = function(){
+    c.onmessage = function(response){
+      console.log(response.data);
+      var device = JSON.parse(response.data);
+      $('#data').append("<tr><td>"+device.name+"</td><td>"+device.type+"</td><td>"+device.os+"</td><td>"+device.Status+"</td></tr>");
+    };
+  }
+</script>

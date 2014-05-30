@@ -11,9 +11,9 @@ import (
 
 type Device struct {
 	Id        int64
-	Name      string `form:"name" binding:"required"`
-	Type      string `form:"type" binding:"required"`
-	OS        string `form:"os" binding:"required"`
+	Name      string `form:"name" binding:"required" json:"name"`
+	Type      string `form:"type" binding:"required" json:"type"`
+	OS        string `form:"os" binding:"required" json:"os"`
 	OsVersion string `form:"os_version" json:"os_version" binding:"required"`
 	Status    string
 }
