@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
@@ -61,8 +60,6 @@ func websocketClient(host string, device models.Device) {
 	if err != nil {
 		log.Println(err)
 	}
-	b, _ := json.Marshal(device)
-
-	con.WriteMessage(websocket.TextMessage, b)
+	con.WriteJSON(device)
 	con.Close()
 }

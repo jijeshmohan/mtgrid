@@ -30,7 +30,7 @@
   c.onopen = function(){
     c.onmessage = function(response){
       console.log(response.data);
-      var device = JSON.parse(response.data);
+      var device = response.data;
       $('#data').append("<tr><td>"+device.name+"</td><td>"+device.type+"</td><td>"+device.os+"</td><td>"+device.Status+"</td></tr>");
     };
   }
