@@ -11,7 +11,7 @@ import (
 	"github.com/martini-contrib/render"
 )
 
-func ListDevices(r render.Render, data middleware.Data) {
+func ListDevices(r render.Render, data middleware.Data, req *http.Request) {
 	devices, err := models.GetAllDevices()
 	if err != nil {
 		log.Println("error ", err)
@@ -19,6 +19,7 @@ func ListDevices(r render.Render, data middleware.Data) {
 		return
 	}
 	data["devices"] = devices
+	data["host"] = req.Host
 	r.HTML(200, "devices/index", data)
 }
 

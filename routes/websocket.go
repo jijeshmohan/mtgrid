@@ -54,7 +54,6 @@ func Socket(w http.ResponseWriter, r *http.Request) {
 	addClient(sockCli)
 
 	for {
-		log.Println(len(ActiveClients), ActiveClients)
 		messageType, p, err := ws.ReadMessage()
 		if err != nil {
 			deleteClient(sockCli)
