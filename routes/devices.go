@@ -61,6 +61,16 @@ func websocketClient(host string, device models.Device) {
 	if err != nil {
 		log.Println(err)
 	}
-	con.WriteJSON(device)
+	d := struct {
+		Status string
+		Device models.Device
+	}{
+		"CREATED",
+		device,
+	}
+	err = con.WriteJSON(d)
+	if err != nil {
+		log.Println("ERROR: ", err)
+	}
 	con.Close()
 }

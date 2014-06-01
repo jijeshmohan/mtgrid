@@ -26,12 +26,18 @@
 </div>
 
 <script>
-  var c=new WebSocket('ws://'+{{.host}}+'/sock');
+  var c=new WebSocket("ws://{{.host}}/sock");
   c.onopen = function(){
+    c.onclose=function(){
+      console.log("websocket connection Closed");
+    }
     c.onmessage = function(response){
-      console.log(response.data);
-      var device = response.data;
-      $('#data').append("<tr><td>"+device.name+"</td><td>"+device.type+"</td><td>"+device.os+"</td><td>"+device.Status+"</td></tr>");
-    };
+      var data = JSON.parse(response.data)
+      var status= data.Status;
+      var device = data.Device;
+      if (status=="CREATED"){
+              $('#data').append("<tr><td>"+device.name+"</td><td>"+device.type+"</td><td>"+device.os+"</td><td>"+device.Status+"</td></tr>");
+      }
+    }
   }
 </script>
