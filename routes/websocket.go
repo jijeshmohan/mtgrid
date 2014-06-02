@@ -57,7 +57,6 @@ func Socket(w http.ResponseWriter, r *http.Request) {
 		messageType, p, err := ws.ReadMessage()
 		if err != nil {
 			deleteClient(sockCli)
-			log.Println("bye")
 			log.Println(err)
 			return
 		}
