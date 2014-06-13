@@ -17,6 +17,14 @@ type ClientConn struct {
 	clientIP  net.Addr
 }
 
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
+
 func addClient(cc ClientConn) {
 	ActiveClientsRWMutex.Lock()
 	ActiveClients[cc] = 0
@@ -30,6 +38,7 @@ func deleteClient(cc ClientConn) {
 }
 
 func broadcastMessage(messageType int, message []byte) {
+	log.Println("Broadcasting")
 	ActiveClientsRWMutex.RLock()
 	defer ActiveClientsRWMutex.RUnlock()
 
@@ -41,8 +50,11 @@ func broadcastMessage(messageType int, message []byte) {
 }
 
 func Socket(w http.ResponseWriter, r *http.Request) {
-	ws, err := websocket.Upgrade(w, r, nil, 1024, 1024)
+	log.Println("New connection")
+
+	ws, err := upgrader.Upgrade(w, r, nil)
 	if _, ok := err.(websocket.HandshakeError); ok {
+		log.Println("Not a websocket handshake")
 		http.Error(w, "Not a websocket handshake", 400)
 		return
 	} else if err != nil {
