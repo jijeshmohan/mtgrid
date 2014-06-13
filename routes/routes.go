@@ -19,7 +19,7 @@ func InitRoutes(m *martini.ClassicMartini) {
 	})
 
 	m.Get("/sock", Socket)
-	m.Get("/node", Socket)
+	m.Get("/node", Node)
 	m.NotFound(func(r render.Render) {
 		r.HTML(404, "status/404", "")
 	})
