@@ -21,6 +21,10 @@
 			"Rev": "baa42219288cdd775874794381aa987144012263"
 		},
 		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Rev": "efd7f76a14d91b4a8e9597306f554305ac9b0b9b"
+		},
+		{
 			"ImportPath": "github.com/martini-contrib/binding",
 			"Rev": "e20ce50c10d6e02d9db60e055c0600bb208b8653"
 		},
