@@ -64,3 +64,14 @@ func GetDevice(id int64) (device *Device, err error) {
 	device = obj.(*Device)
 	return
 }
+
+func GetDeviceWithName(name string) (device *Device, err error) {
+	err = orp.SelectOne(device, "select * from devices where [name] = ':name' limit 1", map[string]interface{}{"name": name})
+	return
+}
+
+func UpdateDeviceStatus(device *Device, status string) (err error) {
+	device.Status = status
+	_, err = orp.Update(device)
+	return err
+}

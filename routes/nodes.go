@@ -1,11 +1,13 @@
 package routes
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/websocket"
-	// "github.com/jijeshmohan/mtgrid/models"
+	"github.com/jijeshmohan/mtgrid/models"
 )
 
 type NodeMsg struct {
@@ -31,11 +33,14 @@ func Node(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	// client := ws.RemoteAddr()
 	nodeMsg := NodeMsg{}
 	ws.ReadJSON(&nodeMsg)
-	log.Println(nodeMsg)
-	// TODO : process client connection
+
+	if err = processClient(nodeMsg); err != nil {
+		log.Println(err)
+		ws.Close()
+		return
+	}
 	for {
 		messageType, p, err := ws.ReadMessage()
 		ws.WriteMessage(messageType, p)
@@ -44,4 +49,17 @@ func Node(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+func processClient(msg NodeMsg) error {
+	if strings.ToLower(msg.Status) != "connected" {
+		return fmt.Errorf("Invalid protocol from client")
+	}
+	device, err := models.GetDeviceWithName(strings.ToLower(msg.Message))
+	if err != nil || device == nil {
+		log.Println(err)
+		return fmt.Errorf("Unable to find device : %s", msg.Message)
+	}
+	err = models.UpdateDeviceStatus(device, "Connected")
+	return err
 }

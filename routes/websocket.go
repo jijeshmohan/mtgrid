@@ -38,7 +38,6 @@ func deleteClient(cc ClientConn) {
 }
 
 func broadcastMessage(messageType int, message []byte) {
-	log.Println("Broadcasting")
 	ActiveClientsRWMutex.RLock()
 	defer ActiveClientsRWMutex.RUnlock()
 
@@ -50,8 +49,6 @@ func broadcastMessage(messageType int, message []byte) {
 }
 
 func Socket(w http.ResponseWriter, r *http.Request) {
-	log.Println("New connection")
-
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if _, ok := err.(websocket.HandshakeError); ok {
 		log.Println("Not a websocket handshake")

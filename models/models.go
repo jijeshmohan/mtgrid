@@ -3,6 +3,8 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"log"
+	"os"
 
 	"github.com/coopernurse/gorp"
 	"github.com/jijeshmohan/mtgrid/config"
@@ -34,5 +36,6 @@ func InitDb(c *config.Config) (dbmap *gorp.DbMap, err error) {
 	}
 
 	dbmap = orp
+	orp.TraceOn("SQL", log.New(os.Stdout, "SQL:", log.Lmicroseconds))
 	return
 }
