@@ -65,9 +65,10 @@ func GetDevice(id int64) (device *Device, err error) {
 	return
 }
 
-func GetDeviceWithName(name string) (device *Device, err error) {
-	err = orp.SelectOne(device, "select * from devices where [name] = ':name' limit 1", map[string]interface{}{"name": name})
-	return
+func GetDeviceWithName(name string) (*Device, error) {
+	var d Device
+	err := orp.SelectOne(&d, "select * from devices where [name]=:name", map[string]interface{}{"name": name})
+	return &d, err
 }
 
 func UpdateDeviceStatus(device *Device, status string) (err error) {
