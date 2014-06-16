@@ -26,7 +26,6 @@ var upgradeWs = websocket.Upgrader{
 func Node(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgradeWs.Upgrade(w, r, nil)
 	if _, ok := err.(websocket.HandshakeError); ok {
-		log.Println("Not a websocket handshake")
 		http.Error(w, "Not a websocket handshake", 400)
 		return
 	} else if err != nil {
@@ -41,25 +40,33 @@ func Node(w http.ResponseWriter, r *http.Request) {
 		ws.Close()
 		return
 	}
+
+	defer updateStatus(nodeMsg.Message, "Disconnected")
 	for {
 		messageType, p, err := ws.ReadMessage()
 		ws.WriteMessage(messageType, p)
 		if err != nil {
-			log.Println(err)
+			log.Println("ERROR :", err)
 			return
 		}
 	}
+}
+
+func updateStatus(devicename string, status string) error {
+	device, err := models.GetDeviceWithName(strings.ToLower(devicename))
+	if err != nil || device == nil {
+		log.Println(err)
+		return fmt.Errorf("Unable to find device : %s", devicename)
+	}
+	err = models.UpdateDeviceStatus(device, status)
+	return err
 }
 
 func processClient(msg NodeMsg) error {
 	if strings.ToLower(msg.Status) != "connected" {
 		return fmt.Errorf("Invalid protocol from client")
 	}
-	device, err := models.GetDeviceWithName(strings.ToLower(msg.Message))
-	if err != nil || device == nil {
-		log.Println(err)
-		return fmt.Errorf("Unable to find device : %s", msg.Message)
-	}
-	err = models.UpdateDeviceStatus(device, "Connected")
+
+	err := updateStatus(msg.Message, "Connected")
 	return err
 }
