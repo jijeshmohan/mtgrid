@@ -1,48 +1,26 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/go-martini/martini"
-	"github.com/jijeshmohan/mtgrid/config"
-	"github.com/jijeshmohan/mtgrid/middleware"
-	"github.com/jijeshmohan/mtgrid/models"
-	"github.com/jijeshmohan/mtgrid/routes"
-	"github.com/martini-contrib/render"
+	"github.com/gorilla/mux"
 )
 
 var (
-	m *martini.ClassicMartini
-	c *config.Config
+	host = flag.String("h", "", "Host name")
+	port = flag.String("p", "8080", "port number")
 )
 
-func startServer() {
-	m = martini.Classic()
-	m.Use(render.Renderer(render.Options{
-		Layout:    "layout",
-		Directory: "views",
-	}))
-
-	if _, err := models.InitDb(c); err != nil {
-		log.Fatalln("Error :", err)
-	}
-
-	m.Use(middleware.InitContext())
-	routes.InitRoutes(m)
-
-	log.Println("Starting server at ", c.Addr)
-	http.ListenAndServe(c.Addr, m)
-}
-
 func main() {
-	c = config.New()
-	if err := c.LoadFile("app.conf"); err != nil {
-		log.Fatalln("Error :", err)
-	}
-	if err := c.LoadEnv(); err != nil {
-		log.Fatalln("Error :", err)
-	}
+	flag.Parse()
+	address := fmt.Sprintf("%s:%s", *host, *port)
+	r := mux.NewRouter()
 
-	startServer()
+	// non REST routes
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("static/")))
+	log.Println("Running on " + address)
+	http.ListenAndServe(address, r)
 }
